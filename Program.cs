@@ -8,6 +8,7 @@ namespace testBreak
 	{
 		[DllImport("libc", SetLastError = true, EntryPoint = "kill")]
 		private static extern int sys_kill(int pid, int sig);
+
   private static readonly int SIGINT = 2;
 
 		static void Main(string[] args)
@@ -28,7 +29,10 @@ namespace testBreak
     Console.WriteLine($"PID={proc.Id} started. Press Enter to exit");
 				Console.ReadLine();
 
-				sys_kill(proc.Id, SIGINT);
+				if (sys_kill(proc.Id, SIGINT) != 0)
+				{
+					Console.WriteLine("kill error");
+				}
 			}
 			catch (Exception e)
 			{
